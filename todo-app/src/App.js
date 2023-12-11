@@ -2,11 +2,11 @@ import "./App.css";
 
 function App() {
   return (
-    <div>
-      <div>
-        <div>Your Todo's</div>
-        <div>
-          <table>
+    <div className="mt-5 container">
+      <div className="card">
+        <div className="card-header">Your Todo's</div>
+        <div className="card-body">
+          <table className="table table-hover">
             <thead>
               <tr>
                 <th scope="col">#</th>
