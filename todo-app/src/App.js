@@ -5,6 +5,11 @@ function App() {
     { rowNumber: 1, rowDescription: "Feed Puppy", rowAssigned: "User One" },
     { rowNumber: 2, rowDescription: "Water Plants", rowAssigned: "User Two" },
     { rowNumber: 3, rowDescription: "Make Dinner", rowAssigned: "User One" },
+    {
+      rowNumber: 4,
+      rowDescription: "Charge Phone Battery",
+      rowAssigned: "User One",
+    },
   ];
 
   return (
