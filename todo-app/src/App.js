@@ -1,4 +1,5 @@
 import "./App.css";
+import ToDoRowItem from "./components/TodoRowItem";
 
 function App() {
   return (
@@ -15,15 +16,11 @@ function App() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <th>Feed Dog</th>
-                <th>Eric</th>
-              </tr>
+              <ToDoRowItem />
               <tr>
                 <th scope="row">2</th>
-                <th>Hair Cut</th>
-                <th>Eric</th>
+                <td>Hair Cut</td>
+                <td>Eric</td>
               </tr>
             </tbody>
           </table>
