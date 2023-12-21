@@ -1,11 +1,8 @@
-import './App.css';
+import "./App.css";
+import { Navbar } from "./layouts/Navbar";
 
 function App() {
-  return (
-    <div className="App">
-      <h1> Welcome to the Mao Mao Shop</h1>
-    </div>
-  );
+  return <Navbar />;
 }
 
 export default App;
