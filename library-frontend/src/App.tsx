@@ -1,22 +1,15 @@
 import "./App.css";
-import { Carousel } from "./layouts/HomePage/Carousel";
-import { ExploreTopBooks } from "./layouts/HomePage/ExploreTopBooks";
-import { Footer } from "./layouts/HomePage/Footer";
-import { Heros } from "./layouts/HomePage/Heros";
-import { LibrayServices } from "./layouts/HomePage/LibaryServices";
+import { HomePage } from "./layouts/HomePage/HomePage";
+import { Footer } from "./layouts/NavbarAndFooter/Footer";
 import { Navbar } from "./layouts/NavbarAndFooter/Navbar";
+import React from "react";
 
-function App() {
+export const App = () => {
   return (
     <div>
       <Navbar />
-      <ExploreTopBooks />
-      <Carousel />
-      <Heros />
-      <LibrayServices />
+      <HomePage />
       <Footer />
     </div>
   );
-}
-
-export default App;
+};
