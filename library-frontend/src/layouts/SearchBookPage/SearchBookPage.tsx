@@ -12,13 +12,20 @@ export const SearchBookPage = () => {
   const [booksPerPage] = useState(5);
   const [totalAmountOfBooks, setTotalAmountOfBooks] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  const [search, setSearch] = useState("");
+  const [searchUrl, setSearchUrl] = useState("");
 
   useEffect(() => {
     const fetchBooks = async () => {
       const baseUrl: string = "http://localhost:8080/api/books";
-      const url: string = `${baseUrl}?page=${
-        currentPage - 1
-      }&size=${booksPerPage}`;
+
+      let url: string = "";
+      if (searchUrl === "") {
+        url = `${baseUrl}?page=${currentPage - 1}&size=${booksPerPage}`;
+      } else {
+        url = `${baseUrl}${searchUrl}`;
+      }
+
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error("Something went wrong!");
@@ -53,7 +60,7 @@ export const SearchBookPage = () => {
       setHttpError(error.message);
     });
     window.scrollTo(0, 0);
-  }, [currentPage]); // If state inside array changes will trigger the useEffect
+  }, [currentPage, searchUrl]); // If state inside array changes will trigger the useEffect
 
   if (isLoading) {
     return (
@@ -70,6 +77,16 @@ export const SearchBookPage = () => {
       </div>
     );
   }
+
+  const searchHandleChange = () => {
+    if (search === "") {
+      setSearchUrl("");
+    } else {
+      setSearchUrl(
+        `/search/findByTitleContaining?title=${search}&page=0&size=${booksPerPage}`
+      );
+    }
+  };
 
   const indexOfLastBook: number = currentPage * booksPerPage;
   const indexOfFirstBook: number = indexOfLastBook - booksPerPage;
@@ -92,8 +109,14 @@ export const SearchBookPage = () => {
                   type="Search"
                   placeholder="Search"
                   aria-labelledby="Search"
+                  onChange={(e) => setSearch(e.target.value)}
                 />
-                <button className="btn btn-outline-success">Search</button>
+                <button
+                  className="btn btn-outline-success"
+                  onClick={() => searchHandleChange()}
+                >
+                  Search
+                </button>
               </div>
             </div>
 
