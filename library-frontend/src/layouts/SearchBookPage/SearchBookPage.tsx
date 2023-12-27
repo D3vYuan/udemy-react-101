@@ -52,7 +52,8 @@ export const SearchBookPage = () => {
       setIsLoading(false);
       setHttpError(error.message);
     });
-  }, []); // If state inside array changes will trigger the useEffect
+    window.scrollTo(0, 0);
+  }, [currentPage]); // If state inside array changes will trigger the useEffect
 
   if (isLoading) {
     return (
@@ -73,8 +74,8 @@ export const SearchBookPage = () => {
   const indexOfLastBook: number = currentPage * booksPerPage;
   const indexOfFirstBook: number = indexOfLastBook - booksPerPage;
   let lastItem =
-    booksPerPage * currentPage <= totalAmountOfBooks
-      ? booksPerPage * currentPage
+    indexOfLastBook <= totalAmountOfBooks
+      ? indexOfLastBook
       : totalAmountOfBooks;
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
@@ -141,9 +142,12 @@ export const SearchBookPage = () => {
             </div>
 
             <div className="mt-3">
-              <h5>Number of results: (22)</h5>
+              <h5>Number of results: ({totalAmountOfBooks})</h5>
             </div>
-            <p>1 to 5 of 22 items:</p>
+            <p>
+              {indexOfFirstBook + 1} to {lastItem} of {totalAmountOfBooks}{" "}
+              items:
+            </p>
             {books.map((book) => (
               <SearchBook book={book} key={book.id} />
             ))}
