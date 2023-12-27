@@ -1,6 +1,22 @@
+import { useEffect, useState } from "react";
+import BookModel from "../../../models/BookModel";
 import { ReturnBook } from "./ReturnBook";
 
 export const Carousel = () => {
+  const [books, setBooks] = useState<BookModel[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [httpError, setHttpError] = useState(null);
+
+  useEffect(() => {
+    const fetchBooks = async () => {
+        
+    };
+    fetchBooks().catch((error: any) => {
+      setIsLoading(false);
+      setHttpError(error.message);
+    });
+  }, []); // If state inside array changes will trigger the useEffect
+
   return (
     <div className="container mt-5" style={{ height: 550 }}>
       <div className="homepage-carousel-title">
