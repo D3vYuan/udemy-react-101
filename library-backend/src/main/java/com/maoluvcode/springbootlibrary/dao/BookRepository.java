@@ -9,4 +9,6 @@ import com.maoluvcode.springbootlibrary.entity.Book;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
     Page<Book> findByTitleContaining(@RequestParam("title") String title, Pageable pageable);
+
+    Page<Book> findByCategoryContaining(@RequestParam("category") String category, Pageable pageable);
 }
