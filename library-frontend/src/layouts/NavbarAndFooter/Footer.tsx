@@ -4,7 +4,7 @@ export const Footer = () => {
   return (
     <div className="main-colr">
       <footer className="contianer d-flex flex-wrap justify-content-center align-items-center py-5 main-color">
-        <p className="col-md-4 mb-0 text-white">Mao Library App</p>
+        <p className="col-md-4 mb-0 text-white">© Mao Library App</p>
         <ul className="nav navbar-dark col-md-4 justify-content-end">
           <li className="nav-item">
             <Link className="nav-link px-2 text-white" to="/home">

@@ -7,20 +7,22 @@ import { SearchBookPage } from "./layouts/SearchBookPage/SearchBookPage";
 
 export const App = () => {
   return (
-    <div>
+    <div className="d-flex flex-column min-vh-100">
       <Navbar />
-      <Switch>
-        {/* exact so that the / would not affect other paths */}
-        <Route path="/" exact>
-          <Redirect to="/home" />
-        </Route>
-        <Route path="/home">
-          <HomePage />
-        </Route>
-        <Route path="/search">
-          <SearchBookPage />
-        </Route>
-      </Switch>
+      <div className="flex-grow-1">
+        <Switch>
+          {/* exact so that the / would not affect other paths */}
+          <Route path="/" exact>
+            <Redirect to="/home" />
+          </Route>
+          <Route path="/home">
+            <HomePage />
+          </Route>
+          <Route path="/search">
+            <SearchBookPage />
+          </Route>
+        </Switch>
+      </div>
       <Footer />
     </div>
   );
