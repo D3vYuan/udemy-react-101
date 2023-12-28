@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export const Footer = () => {
   return (
-    <div className="main-colr">
+    <div className="main-color">
       <footer className="contianer d-flex flex-wrap justify-content-center align-items-center py-5 main-color">
         <p className="col-md-4 mb-0 text-white">© Mao Library App</p>
         <ul className="nav navbar-dark col-md-4 justify-content-end">

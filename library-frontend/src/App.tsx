@@ -1,6 +1,8 @@
 import { OktaAuth, toRelativeUrl } from "@okta/okta-auth-js";
+import { LoginCallback, Security } from "@okta/okta-react";
 import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import "./App.css";
+import LoginWidget from "./Auth/LoginWidget";
 import { BookCheckoutPage } from "./layouts/BookCheckoutPage/BookCheckoutPage";
 import { HomePage } from "./layouts/HomePage/HomePage";
 import { Footer } from "./layouts/NavbarAndFooter/Footer";
@@ -23,25 +25,36 @@ export const App = () => {
 
   return (
     <div className="d-flex flex-column min-vh-100">
-      <Navbar />
-      <div className="flex-grow-1">
-        <Switch>
-          {/* exact so that the / would not affect other paths */}
-          <Route path="/" exact>
-            <Redirect to="/home" />
-          </Route>
-          <Route path="/home">
-            <HomePage />
-          </Route>
-          <Route path="/search">
-            <SearchBookPage />
-          </Route>
-          <Route path="/checkout/:bookid">
-            <BookCheckoutPage />
-          </Route>
-        </Switch>
-      </div>
-      <Footer />
+      <Security
+        oktaAuth={oktaAuth}
+        restoreOriginalUri={restoreOriginalUri}
+        onAuthRequired={customAuthHandler}
+      >
+        <Navbar />
+        <div className="flex-grow-1">
+          <Switch>
+            {/* exact so that the / would not affect other paths */}
+            <Route path="/" exact>
+              <Redirect to="/home" />
+            </Route>
+            <Route path="/home">
+              <HomePage />
+            </Route>
+            <Route path="/search">
+              <SearchBookPage />
+            </Route>
+            <Route path="/checkout/:bookid">
+              <BookCheckoutPage />
+            </Route>
+            <Route
+              path="/login"
+              render={() => <LoginWidget config={oktaConfig} />}
+            ></Route>
+            <Route path="/login/callback" component={LoginCallback}></Route>
+          </Switch>
+        </div>
+        <Footer />
+      </Security>
     </div>
   );
 };
