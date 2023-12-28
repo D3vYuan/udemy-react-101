@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import BookModel from "../../models/BookModel";
+import ReviewModel from "../../models/ReviewModel";
 import { SpinnerLoading } from "../Utils/SpinnerLoading";
 import { StarReviews } from "../Utils/StarReviews";
 import { CheckoutAndReviewBox } from "./components/CheckoutAndReviewBox";
@@ -8,6 +9,11 @@ export const BookCheckoutPage = () => {
   const [book, setBook] = useState<BookModel>();
   const [isLoading, setIsLoading] = useState(true);
   const [httpError, setHttpError] = useState(null);
+
+  // Review State
+  const [reviews, setReviews] = useState<ReviewModel[]>([]);
+  const [totalStars, setTotalStars] = useState(0);
+  const [isLoadingReview, setIsLoadingReview] = useState(true);
 
   const bookId = window.location.pathname.split("/")[2];
 
@@ -41,7 +47,50 @@ export const BookCheckoutPage = () => {
     });
   }, []); // If state inside array changes will trigger the useEffect
 
-  if (isLoading) {
+  useEffect(() => {
+    const fetchReviews = async () => {
+      const reviewUrl: string = `http://localhost:8080/api/reviews/search/findByBookId?bookId=${bookId}`;
+      const response = await fetch(reviewUrl);
+      if (!response.ok) {
+        throw new Error("Something went wrong!");
+      }
+
+      const responseJson = await response.json();
+      const responseData = responseJson._embedded.reviews;
+
+      const loadedReviews: ReviewModel[] = [];
+
+      let weightedStarReviews: number = 0;
+
+      for (const key in responseData) {
+        loadedReviews.push({
+          id: responseData[key].id,
+          userEmail: responseData[key].userEmail,
+          date: responseData[key].date,
+          rating: responseData[key].rating,
+          bookId: responseData[key].bookId,
+          reviewDescription: responseData[key].reviewDescription,
+        });
+        weightedStarReviews = weightedStarReviews + responseData[key].rating;
+      }
+
+      if (loadedReviews) {
+        const round = (
+          Math.round((weightedStarReviews / loadedReviews.length) * 2) / 2
+        ).toFixed(1);
+        setTotalStars(Number(round));
+      }
+
+      setReviews(loadedReviews);
+      setIsLoadingReview(false);
+    };
+    fetchReviews().catch((error: any) => {
+      setIsLoadingReview(false);
+      setHttpError(error.message);
+    });
+  }, []); // If state inside array changes will trigger the useEffect
+
+  if (isLoading || isLoadingReview) {
     return (
       <div className="container m-5">
         <SpinnerLoading />
