@@ -1,6 +1,7 @@
 ### Custom ###
 setup/
 application.properties
+*sh
 
 ### Generated ###
 HELP.md
