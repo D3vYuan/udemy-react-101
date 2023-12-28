@@ -84,6 +84,7 @@ export const BookCheckoutPage = () => {
         </div>
         <hr />
       </div>
+
       {/* Mobile Version */}
       <div className="container d-lg-none mt-5">
         <div className="d-flex justify-content-center  align-items-center">
