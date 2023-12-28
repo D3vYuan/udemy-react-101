@@ -14,9 +14,9 @@ export const LatestReviews: React.FC<{
       <div className="col-sm-10 col-md-10">
         {props.reviews.length > 0 ? (
           <>
-            {/* {props.reviews.slice(0, 3).map((review) => {
+            {props.reviews.slice(0, 3).map((review) => {
               <Review review={review} key={review.id}></Review>;
-            })} */}
+            })}
 
             <div className="m-3">
               <Link
