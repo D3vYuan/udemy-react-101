@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import ReviewModel from "../../../models/ReviewModel";
+import { Review } from "../../Utils/Review";
 
 export const LatestReviews: React.FC<{
   reviews: ReviewModel[];
@@ -14,26 +15,24 @@ export const LatestReviews: React.FC<{
       <div className="col-sm-10 col-md-10">
         {props.reviews.length > 0 ? (
           <>
-            {props.reviews.slice(0, 3).map((review) => {
-              <Review review={review} key={review.id}></Review>;
-            })}
-
+            {props.reviews.slice(0, 3).map((review) => (
+              <Review review={review} key={review.id}></Review>
+            ))}
+            <hr />
             <div className="m-3">
               <Link
                 type="button"
-                className="btn main-colr btn-md text-white"
+                className="btn main-color btn-md text-white"
                 to="#"
               >
-                Reach all reviews.
+                Reach all reviews
               </Link>
             </div>
           </>
         ) : (
           // No Reviews
           <div className="m-3">
-            <p className="lead">
-              Currently there are no reviews for this book.
-            </p>
+            <p className="lead">Currently there are no reviews for this book</p>
           </div>
         )}
       </div>
