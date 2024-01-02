@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.maoluvcode.library.dao.BookRepository;
 import com.maoluvcode.library.dao.ReviewRepository;
 import com.maoluvcode.library.dto.ReviewRequest;
 import com.maoluvcode.library.entity.Review;
@@ -14,11 +13,9 @@ import com.maoluvcode.library.entity.Review;
 @Service
 @Transactional
 public class ReviewService {
-    private BookRepository bookRepository;
     private ReviewRepository reviewRepository;
 
-    public ReviewService(BookRepository bookRepository, ReviewRepository reviewRepository) {
-        this.bookRepository = bookRepository;
+    public ReviewService(ReviewRepository reviewRepository) {
         this.reviewRepository = reviewRepository;
     }
 
@@ -38,6 +35,15 @@ public class ReviewService {
         }
         review.setDate(Date.valueOf(LocalDate.now()));
         reviewRepository.save(review);
+    }
+
+    public Boolean userReviewListed(String userEmail, Long bookId) {
+        Review validateReview = reviewRepository.findByUserEmailAndBookId(userEmail, bookId);
+        if (validateReview != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }
