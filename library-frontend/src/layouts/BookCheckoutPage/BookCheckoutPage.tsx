@@ -58,7 +58,7 @@ export const BookCheckoutPage = () => {
       setIsLoading(false);
       setHttpError(error.message);
     });
-  }, []); // If state inside array changes will trigger the useEffect
+  }, [isCheckedOut]); // If state inside array changes will trigger the useEffect
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -128,10 +128,10 @@ export const BookCheckoutPage = () => {
       setIsLoadingCurrentLoansCount(false);
       setHttpError(error.message);
     });
-  }, [authState]);
+  }, [authState, isCheckedOut]);
 
   useEffect(() => {
-    const fetchUserChecedOutBook = async () => {
+    const fetchUserCheckedOutBook = async () => {
       if (authState && authState.isAuthenticated) {
         const url = `http://localhost:8080/api/books/secure/ischeckout/byuser/?bookId=${bookId}`;
         const requestOptions = {
@@ -152,7 +152,7 @@ export const BookCheckoutPage = () => {
       }
       setIsLoadingBookCheckedOut(false);
     };
-    fetchUserChecedOutBook().catch((error: any) => {
+    fetchUserCheckedOutBook().catch((error: any) => {
       setIsLoadingBookCheckedOut(false);
       setHttpError(error.message);
     });
@@ -177,6 +177,23 @@ export const BookCheckoutPage = () => {
         <p>{httpError}</p>
       </div>
     );
+  }
+
+  async function checkoutBook() {
+    const url = `http://localhost:8080/api/books/secure/checkout/?bookId=${book?.id}`;
+    const requestOptions = {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
+        "Content-Type": "application/json",
+      },
+    };
+    const checkoutResponse = await fetch(url, requestOptions);
+    if (!checkoutResponse.ok) {
+      throw new Error("Something went wrong!");
+    }
+
+    setIsCheckedOut(true);
   }
 
   return (
@@ -210,6 +227,7 @@ export const BookCheckoutPage = () => {
             currentLoansCount={currentLoansCount}
             isAuthenticated={authState?.isAuthenticated}
             isCheckout={isCheckedOut}
+            checkoutBook={checkoutBook}
           />
         </div>
         <hr />
@@ -245,6 +263,7 @@ export const BookCheckoutPage = () => {
           currentLoansCount={currentLoansCount}
           isAuthenticated={authState?.isAuthenticated}
           isCheckout={isCheckedOut}
+          checkoutBook={checkoutBook}
         />
         <hr />
         <LatestReviews reviews={reviews} bookId={book?.id} mobile={true} />
