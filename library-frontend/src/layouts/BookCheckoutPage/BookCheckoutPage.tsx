@@ -131,14 +131,39 @@ export const BookCheckoutPage = () => {
   }, [authState]);
 
   useEffect(() => {
-    const fetchUserChecedOutBook = async () => {};
+    const fetchUserChecedOutBook = async () => {
+      if (authState && authState.isAuthenticated) {
+        const url = `http://localhost:8080/api/books/secure/ischeckout/byuser/?bookId=${bookId}`;
+        const requestOptions = {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${authState.accessToken?.accessToken}`,
+            "Content-Type": "application/json",
+          },
+        };
+        const bookCheckedOut = await fetch(url, requestOptions);
+
+        if (!bookCheckedOut.ok) {
+          throw new Error("Something went wrong!");
+        }
+
+        const bookCheckedOutResponseJson = await bookCheckedOut.json();
+        setIsCheckedOut(bookCheckedOutResponseJson);
+      }
+      setIsLoadingBookCheckedOut(false);
+    };
     fetchUserChecedOutBook().catch((error: any) => {
       setIsLoadingBookCheckedOut(false);
       setHttpError(error.message);
     });
-  }, []);
+  }, [authState]);
 
-  if (isLoading || isLoadingReview || isLoadingCurrentLoansCount) {
+  if (
+    isLoading ||
+    isLoadingReview ||
+    isLoadingCurrentLoansCount ||
+    isLoadingBookCheckedOut
+  ) {
     return (
       <div className="container m-5">
         <SpinnerLoading />
