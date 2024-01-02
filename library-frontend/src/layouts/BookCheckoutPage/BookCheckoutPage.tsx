@@ -19,6 +19,9 @@ export const BookCheckoutPage = () => {
   const [totalStars, setTotalStars] = useState(0);
   const [isLoadingReview, setIsLoadingReview] = useState(true);
 
+  const [isReviewLeft, setIsReviewLeft] = useState(false);
+  const [isLoadingUserReview, setIsLoadingUserReview] = useState(true);
+
   // Loans Count State
   const [currentLoansCount, setCurrentLoansCount] = useState(0);
   const [isLoadingCurrentLoansCount, setIsLoadingCurrentLoansCount] =
@@ -102,6 +105,14 @@ export const BookCheckoutPage = () => {
       setHttpError(error.message);
     });
   }, []); // If state inside array changes will trigger the useEffect
+
+  useEffect(() => {
+    const fetchUserReviewBook = async () => {};
+    fetchUserReviewBook().catch((error: any) => {
+      setIsLoadingUserReview(false);
+      setHttpError(error.message);
+    });
+  }, [authState]);
 
   useEffect(() => {
     const fetchUserCurrentLoansCount = async () => {
