@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BookController {
     private BookService bookService;
+    private static final String SUB_FIELD = "\"sub\"";
 
     public BookController(BookService bookService) {
         this.bookService = bookService;
@@ -28,21 +29,21 @@ public class BookController {
     @GetMapping("/secure/currentloans/count")
     public int currentLoansCount(@RequestHeader(value = "Authorization") String token) {
         // String userEmail = ExtractJWT.payloadJWTExtraction(token);
-        String userEmail = ExtractJWT.payloadJWTExtraction(token);
+        String userEmail = ExtractJWT.payloadJWTExtraction(token, SUB_FIELD);
         log.info("Found: {}", userEmail);
         return bookService.currentLoansCount(userEmail);
     }
 
     @GetMapping("/secure/ischeckout/byuser")
     public Boolean checkoutBookByUser(@RequestHeader(value = "Authorization") String token, @RequestParam Long bookId) {
-        String email = ExtractJWT.payloadJWTExtraction(token);
+        String email = ExtractJWT.payloadJWTExtraction(token, SUB_FIELD);
         return bookService.checkoutBookByUser(email, bookId);
     }
 
     @PutMapping("/secure/checkout")
     public Book checkoutBook(@RequestHeader(value = "Authorization") String token, @RequestParam Long bookId)
             throws Exception {
-        String userEmail = "testuser@email.com";
+        String userEmail = ExtractJWT.payloadJWTExtraction(token, SUB_FIELD);
         return bookService.checkoutBook(userEmail, bookId);
     }
 

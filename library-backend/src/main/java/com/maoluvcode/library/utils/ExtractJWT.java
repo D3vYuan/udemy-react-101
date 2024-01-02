@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ExtractJWT {
-    public static String payloadJWTExtraction(String token) {
+    public static String payloadJWTExtraction(String token, String extraction) {
         log.info("Token: {}", token);
         token.replace("Bearer ", "");
 
@@ -22,7 +22,7 @@ public class ExtractJWT {
         Map<String, String> map = new HashMap<>();
         for (String entry : entries) {
             String[] keyValue = entry.split(":");
-            if (keyValue[0].equals("\"sub\"")) {
+            if (keyValue[0].equals(extraction)) {
                 int remove = 1;
                 if (keyValue[1].endsWith("}")) {
                     remove = 2;
@@ -34,8 +34,8 @@ public class ExtractJWT {
             }
         }
 
-        if (map.containsKey("\"sub\"")) {
-            return map.get("\"sub\"");
+        if (map.containsKey(extraction)) {
+            return map.get(extraction);
         }
 
         return null;
