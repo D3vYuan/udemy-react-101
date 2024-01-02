@@ -19,7 +19,8 @@
         <java.version>8</java.version>
         <assertj.version>3.24.2</assertj.version>
         <junit.jupiter.version>5.10.1</junit.jupiter.version>
-        <okta.version>3.0.6</okta.version>
+        <!-- <okta.version>3.0.6</okta.version> -->
+        <okta.version>2.1.7</okta.version>
     </properties>
     <dependencies>
 
