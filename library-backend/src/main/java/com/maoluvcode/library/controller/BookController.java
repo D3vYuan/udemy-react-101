@@ -1,6 +1,7 @@
 package com.maoluvcode.library.controller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -8,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.maoluvcode.library.entity.Book;
 import com.maoluvcode.library.service.BookService;
-import org.springframework.web.bind.annotation.GetMapping;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
@@ -18,6 +18,12 @@ public class BookController {
 
     public BookController(BookService bookService) {
         this.bookService = bookService;
+    }
+
+    @GetMapping("/secure/currentloans/count")
+    public int currentLoansCount() {
+        String userEmail = "testuser@email.com";
+        return bookService.currentLoansCount(userEmail);
     }
 
     @GetMapping("/secure/ischeckout/byuser")
