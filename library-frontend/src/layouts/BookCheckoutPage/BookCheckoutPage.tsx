@@ -121,8 +121,8 @@ export const BookCheckoutPage = () => {
         const currentLoansCountResponseJson =
           await currentLoansCountResponse.json();
         setCurrentLoansCount(currentLoansCountResponseJson);
-        setIsLoadingCurrentLoansCount(false);
       }
+      setIsLoadingCurrentLoansCount(false);
     };
     fetchUserCurrentLoansCount().catch((error: any) => {
       setIsLoadingCurrentLoansCount(false);
@@ -208,6 +208,8 @@ export const BookCheckoutPage = () => {
             book={book}
             mobile={false}
             currentLoansCount={currentLoansCount}
+            isAuthenticated={authState?.isAuthenticated}
+            isCheckout={isCheckedOut}
           />
         </div>
         <hr />
@@ -241,6 +243,8 @@ export const BookCheckoutPage = () => {
           book={book}
           mobile={true}
           currentLoansCount={currentLoansCount}
+          isAuthenticated={authState?.isAuthenticated}
+          isCheckout={isCheckedOut}
         />
         <hr />
         <LatestReviews reviews={reviews} bookId={book?.id} mobile={true} />
