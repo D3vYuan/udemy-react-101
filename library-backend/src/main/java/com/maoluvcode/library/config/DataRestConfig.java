@@ -1,4 +1,4 @@
-package com.maoluvcode.springbootlibrary.config;
+package com.maoluvcode.library.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
@@ -6,8 +6,8 @@ import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
-import com.maoluvcode.springbootlibrary.entity.Book;
-import com.maoluvcode.springbootlibrary.entity.Review;
+import com.maoluvcode.library.entity.Book;
+import com.maoluvcode.library.entity.Review;
 
 @Configuration
 public class DataRestConfig implements RepositoryRestConfigurer {

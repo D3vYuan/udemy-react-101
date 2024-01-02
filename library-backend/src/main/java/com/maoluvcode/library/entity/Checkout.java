@@ -1,4 +1,4 @@
-package com.maoluvcode.springbootlibrary.entity;
+package com.maoluvcode.library.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
