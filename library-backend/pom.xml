@@ -19,6 +19,7 @@
         <java.version>8</java.version>
         <assertj.version>3.24.2</assertj.version>
         <junit.jupiter.version>5.10.1</junit.jupiter.version>
+        <okta.version>3.0.6</okta.version>
     </properties>
     <dependencies>
 
@@ -49,6 +50,13 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.okta.spring/okta-spring-boot-starter -->
+        <dependency>
+            <groupId>com.okta.spring</groupId>
+            <artifactId>okta-spring-boot-starter</artifactId>
+            <version>${okta.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
