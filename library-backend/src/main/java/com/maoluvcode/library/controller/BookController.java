@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.maoluvcode.library.entity.Book;
 import com.maoluvcode.library.service.BookService;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
@@ -17,6 +18,12 @@ public class BookController {
 
     public BookController(BookService bookService) {
         this.bookService = bookService;
+    }
+
+    @GetMapping("/secure/ischeckout/byuser")
+    public Boolean checkoutBookByUser(@RequestParam Long bookId) {
+        String email = "testuser@email.com";
+        return bookService.checkoutBookByUser(email, bookId);
     }
 
     @PutMapping("/secure/checkout")
