@@ -4,6 +4,7 @@ import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import "./App.css";
 import LoginWidget from "./Auth/LoginWidget";
 import { BookCheckoutPage } from "./layouts/BookCheckoutPage/BookCheckoutPage";
+import { ReviewListPage } from "./layouts/BookCheckoutPage/components/ReviewListPage";
 import { HomePage } from "./layouts/HomePage/HomePage";
 import { Footer } from "./layouts/NavbarAndFooter/Footer";
 import { Navbar } from "./layouts/NavbarAndFooter/Navbar";
@@ -42,6 +43,9 @@ export const App = () => {
             </Route>
             <Route path="/search">
               <SearchBookPage />
+            </Route>
+            <Route path="/reviewlist/:bookid">
+              <ReviewListPage />
             </Route>
             <Route path="/checkout/:bookid">
               <BookCheckoutPage />

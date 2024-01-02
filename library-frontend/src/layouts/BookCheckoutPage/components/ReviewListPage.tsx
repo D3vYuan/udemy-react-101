@@ -32,8 +32,8 @@ export const ReviewListPage = () => {
 
       const loadedReviews: ReviewModel[] = [];
 
-      setTotalAmountOfReviews(responseData.page.totalElements);
-      setTotalPages(responseData.page.setTotalPages);
+      setTotalAmountOfReviews(responseJson.page.totalElements);
+      setTotalPages(responseJson.page.setTotalPages);
 
       for (const key in responseData) {
         loadedReviews.push({

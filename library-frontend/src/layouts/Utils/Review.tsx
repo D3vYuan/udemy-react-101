@@ -26,6 +26,7 @@ export const Review: React.FC<{
           <p>{props.review.reviewDescription}</p>
         </div>
       </div>
+      <hr />
     </div>
   );
 };
