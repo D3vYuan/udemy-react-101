@@ -4,7 +4,7 @@ import HistoryModel from "../../../models/HistoryModel";
 import { SpinnerLoading } from "../../Utils/SpinnerLoading";
 
 export const HistoryPage = () => {
-  const authState = useOktaAuth();
+  const { authState } = useOktaAuth();
   const [isLoadingHistory, setIsLoadingHistory] = useState(true);
   const [httpError, setHttpError] = useState(null);
 
@@ -16,7 +16,30 @@ export const HistoryPage = () => {
   const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
-    const fetchUserHistory = async () => {};
+    const fetchUserHistory = async () => {
+      if (authState && authState.isAuthenticated) {
+        const url = `http//localhost:8080/api/histories/search/findBooksByUserEmail?userEmail=${
+          authState?.accessToken?.claims.sub
+        }&page=${currentPage - 1}&size=5`;
+        const requestOptions = {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
+            "Content-Type": "application/json",
+          },
+        };
+
+        const historyResponse = await fetch(url, requestOptions);
+        if (!historyResponse.ok) {
+          throw new Error("Something went wrong!");
+        }
+
+        const historyResponseJson = await historyResponse.json();
+        setHistories(historyResponseJson._embedded.histories);
+        setTotalPages(historyResponseJson.page.total);
+      }
+      setIsLoadingHistory(false);
+    };
 
     fetchUserHistory().catch((error: any) => {
       setIsLoadingHistory(false);
