@@ -1,13 +1,19 @@
 package com.maoluvcode.library.service;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.maoluvcode.library.dao.BookRepository;
 import com.maoluvcode.library.dao.CheckoutRepository;
+import com.maoluvcode.library.dto.ShelfCurrentLoansResponse;
 import com.maoluvcode.library.entity.Book;
 import com.maoluvcode.library.entity.Checkout;
 
@@ -51,4 +57,31 @@ public class BookService {
         return checkoutRepository.findBooksByUserEmail(userEmail).size();
     }
 
+    public List<ShelfCurrentLoansResponse> currentLoans(String userEmail) throws Exception {
+        List<ShelfCurrentLoansResponse> ShelfCurrentLoansResponses = new ArrayList<>();
+        List<Checkout> checkoutList = checkoutRepository.findBooksByUserEmail(userEmail);
+        List<Long> bookIdList = new ArrayList<>();
+
+        for (Checkout checkout : checkoutList) {
+            bookIdList.add(checkout.getBookId());
+        }
+
+        List<Book> books = bookRepository.findBooksByBookIds(bookIdList);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        for (Book book : books) {
+            Optional<Checkout> checkout = checkoutList.stream().filter(x -> x.getBookId() == book.getId()).findFirst();
+            if (checkout.isPresent()) {
+                Date d1 = dateFormat.parse(checkout.get().getReturnDate());
+                Date d2 = dateFormat.parse(LocalDate.now().toString());
+
+                TimeUnit time = TimeUnit.DAYS;
+                long differenceInTime = time.convert(d1.getTime() - d2.getTime(), TimeUnit.MILLISECONDS);
+
+                ShelfCurrentLoansResponses.add(new ShelfCurrentLoansResponse(book, (int) differenceInTime));
+            }
+        }
+
+        return ShelfCurrentLoansResponses;
+    }
 }
