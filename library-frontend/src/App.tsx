@@ -1,5 +1,5 @@
 import { OktaAuth, toRelativeUrl } from "@okta/okta-auth-js";
-import { LoginCallback, Security } from "@okta/okta-react";
+import { LoginCallback, SecureRoute, Security } from "@okta/okta-react";
 import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import "./App.css";
 import LoginWidget from "./Auth/LoginWidget";
@@ -9,6 +9,7 @@ import { HomePage } from "./layouts/HomePage/HomePage";
 import { Footer } from "./layouts/NavbarAndFooter/Footer";
 import { Navbar } from "./layouts/NavbarAndFooter/Navbar";
 import { SearchBookPage } from "./layouts/SearchBookPage/SearchBookPage";
+import { ShelfPage } from "./layouts/ShelfPage/ShelfPage";
 import { oktaConfig } from "./lib/oktaConfig";
 
 const oktaAuth = new OktaAuth(oktaConfig);
@@ -55,6 +56,9 @@ export const App = () => {
               render={() => <LoginWidget config={oktaConfig} />}
             ></Route>
             <Route path="/login/callback" component={LoginCallback}></Route>
+            <SecureRoute path="/shelf">
+              <ShelfPage />
+            </SecureRoute>
           </Switch>
         </div>
         <Footer />
