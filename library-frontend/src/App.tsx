@@ -6,6 +6,7 @@ import LoginWidget from "./Auth/LoginWidget";
 import { BookCheckoutPage } from "./layouts/BookCheckoutPage/BookCheckoutPage";
 import { ReviewListPage } from "./layouts/BookCheckoutPage/components/ReviewListPage";
 import { HomePage } from "./layouts/HomePage/HomePage";
+import { MessagePage } from "./layouts/MessagesPage/MessagePage";
 import { Footer } from "./layouts/NavbarAndFooter/Footer";
 import { Navbar } from "./layouts/NavbarAndFooter/Navbar";
 import { SearchBookPage } from "./layouts/SearchBookPage/SearchBookPage";
@@ -58,6 +59,9 @@ export const App = () => {
             <Route path="/login/callback" component={LoginCallback}></Route>
             <SecureRoute path="/shelf">
               <ShelfPage />
+            </SecureRoute>
+            <SecureRoute path="/messages">
+              <MessagePage />
             </SecureRoute>
           </Switch>
         </div>
