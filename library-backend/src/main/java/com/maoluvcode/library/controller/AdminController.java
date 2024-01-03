@@ -1,18 +1,18 @@
 package com.maoluvcode.library.controller;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.maoluvcode.library.dto.AddBookRequest;
 import com.maoluvcode.library.service.AdminService;
 import com.maoluvcode.library.utils.ExtractJWT;
 
 @CrossOrigin("http://localhost:3000")
-@Controller
+@RestController
 @RequestMapping("/api/admin")
 public class AdminController {
     private AdminService adminService;
@@ -23,7 +23,8 @@ public class AdminController {
     }
 
     @PostMapping("/secure/add/book")
-    public void postBook(@RequestHeader("Authorization") String token, @RequestBody AddBookRequest addBookRequest)
+    public void postBook(@RequestHeader(value = "Authorization") String token,
+            @RequestBody AddBookRequest addBookRequest)
             throws Exception {
         String admin = ExtractJWT.payloadJWTExtraction(token, USER_TYPE_FIELD);
         if (admin == null || !admin.equals("admin")) {
