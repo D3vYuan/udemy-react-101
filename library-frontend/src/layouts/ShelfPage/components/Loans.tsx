@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ShelfCurrentLoansModels from "../../../models/ShelfCurrentLoansModel";
 import { SpinnerLoading } from "../../Utils/SpinnerLoading";
+import { LoansModal } from "./LoansModal";
 
 export const Loans = () => {
   const { authState } = useOktaAuth();
@@ -65,7 +66,7 @@ export const Loans = () => {
             {shelfCurrentLoans.map((shelfCurrentLoan) => (
               <div key={shelfCurrentLoan.book.id}>
                 <div className="row mt-3 mb-3">
-                  <div className="col-4 col-md-4 container d-flex justify-content-center align-items-center">
+                  <div className="col-4 col-md-4 container">
                     {shelfCurrentLoan.book?.img ? (
                       <img
                         src={shelfCurrentLoan.book?.img}
@@ -131,6 +132,10 @@ export const Loans = () => {
                   </div>
                 </div>
                 <hr />
+                <LoansModal
+                  shelfCurrentLoan={shelfCurrentLoan}
+                  mobile={false}
+                />
               </div>
             ))}
           </>
@@ -216,6 +221,7 @@ export const Loans = () => {
                   </div>
                 </div>
                 <hr />
+                <LoansModal shelfCurrentLoan={shelfCurrentLoan} mobile={true} />
               </div>
             ))}
           </>
