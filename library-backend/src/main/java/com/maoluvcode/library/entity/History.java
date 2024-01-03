@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "History")
+@Table(name = "history")
 @Data
 public class History {
 
@@ -39,6 +39,9 @@ public class History {
 
     @Column(name = "img")
     private String img;
+
+    public History() {
+    }
 
     public History(String userEmail, String checkoutDate, String returnedDate, String title, String author,
             String description, String img) {
