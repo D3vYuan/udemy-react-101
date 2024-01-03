@@ -99,4 +99,21 @@ public class BookService {
         bookRepository.save(book.get());
         checkoutRepository.deleteById(validateCheckout.getId());
     }
+
+    public void renewLoan(String userEmail, Long bookId) throws Exception {
+        Checkout validateCheckout = checkoutRepository.findByUserEmailAndBookId(userEmail, bookId);
+
+        if (validateCheckout == null) {
+            throw new Exception("Book does not exist or not checked out by user");
+        }
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        Date returnDate = dateFormat.parse(validateCheckout.getReturnDate());
+        Date todayDate = dateFormat.parse(LocalDate.now().toString());
+
+        if (returnDate.compareTo(todayDate) >= 0) {
+            validateCheckout.setReturnDate(LocalDate.now().plusDays(7).toString());
+            checkoutRepository.save(validateCheckout);
+        }
+    }
 }
