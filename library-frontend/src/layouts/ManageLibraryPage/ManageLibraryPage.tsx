@@ -8,6 +8,21 @@ export const ManageLibraryPage = () => {
     useState(false);
   const [messageClick, setMessageClick] = useState(false);
 
+  function addBookClickFunction() {
+    setChangeQuanityOfBooksClick(false);
+    setMessageClick(false);
+  }
+
+  function changeQuantityOfBooksClickFunction() {
+    setChangeQuanityOfBooksClick(true);
+    setMessageClick(false);
+  }
+
+  function messagesClickFunction() {
+    setChangeQuanityOfBooksClick(false);
+    setMessageClick(true);
+  }
+
   return (
     <div className="container">
       <div className="mt-5">
@@ -15,6 +30,7 @@ export const ManageLibraryPage = () => {
         <nav>
           <div className="nav nav-tabs" id="nav-tab" role="tablist">
             <button
+              onClick={addBookClickFunction}
               className="nav-link active"
               id="nav-add-book-tab"
               data-bs-toggle="tab"
@@ -27,6 +43,7 @@ export const ManageLibraryPage = () => {
               Add New Book
             </button>
             <button
+              onClick={changeQuantityOfBooksClickFunction}
               className="nav-link"
               id="nav-quantity-tab"
               data-bs-toggle="tab"
@@ -39,6 +56,7 @@ export const ManageLibraryPage = () => {
               Change Quantity
             </button>
             <button
+              onClick={messagesClickFunction}
               className="nav-link"
               id="nav-messages-tab"
               data-bs-toggle="tab"
@@ -67,7 +85,7 @@ export const ManageLibraryPage = () => {
             role="tabpanel"
             aria-labelledby="nav-quantity-tab"
           >
-            Change Quantity
+            {changeQuantityOfBooksClick ? <>Change Quantity</> : <></>}
           </div>
           <div
             className="tab-pane fade"
@@ -75,7 +93,7 @@ export const ManageLibraryPage = () => {
             role="tabpanel"
             aria-labelledby="nav-messages-tab"
           >
-            Admin Messages
+            {messageClick ? <>Admin Messages</> : <></>}
           </div>
         </div>
       </div>
