@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { PostNewMessage } from "./components/PostNewMessage";
 
 export const MessagePage = () => {
   const [messageClick, setMessageClick] = useState(false);
@@ -44,7 +45,7 @@ export const MessagePage = () => {
             role="tabpanel"
             aria-labelledby="nav-send-message-tab"
           >
-            <p>Post new message</p>
+            <PostNewMessage />
           </div>
 
           <div
