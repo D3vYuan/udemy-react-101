@@ -3,9 +3,19 @@ import MessageModel from "../../../models/MessageModel";
 
 export const AdminMessage: React.FC<{
   message: MessageModel;
+  submitResponseToQuestion: Function;
 }> = (props, key) => {
   const [displayWarning, setDisplayWarning] = useState(false);
   const [response, setResponse] = useState("");
+
+  function submitBtn() {
+    if (props.message.id !== null && response !== "") {
+      props.submitResponseToQuestion(props.message.id, response);
+      setDisplayWarning(false);
+    } else {
+      setDisplayWarning(true);
+    }
+  }
 
   return (
     <div key={props.message.id}>
@@ -35,7 +45,11 @@ export const AdminMessage: React.FC<{
               ></textarea>
             </div>
             <div>
-              <button type="button" className="btn btn-primary mt-3">
+              <button
+                type="button"
+                className="btn btn-primary mt-3"
+                onClick={submitBtn}
+              >
                 Submit Response
               </button>
             </div>

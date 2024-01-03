@@ -3,8 +3,9 @@ package com.maoluvcode.library.service;
 import java.sql.Date;
 import java.time.LocalDate;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.maoluvcode.library.dao.ReviewRepository;
 import com.maoluvcode.library.dto.ReviewRequest;
