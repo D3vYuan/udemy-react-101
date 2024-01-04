@@ -1,6 +1,7 @@
 package com.maoluvcode.library.controller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -56,6 +57,16 @@ public class AdminController {
             throw new Exception(UNAUTHORIZED_EXCEPTION_MESSGAGE);
         }
         adminService.postBook(addBookRequest);
+    }
+
+    @DeleteMapping("/secure/delete/book")
+    public void deleteBook(@RequestHeader(value = "Authorization") String token, @RequestParam Long bookId)
+            throws Exception {
+        String admin = ExtractJWT.payloadJWTExtraction(token, USER_TYPE_FIELD);
+        if (admin == null || !admin.equals("admin")) {
+            throw new Exception(UNAUTHORIZED_EXCEPTION_MESSGAGE);
+        }
+        adminService.deleteBook(bookId);
     }
 
 }
