@@ -25,6 +25,17 @@ public class AdminController {
         this.adminService = adminService;
     }
 
+    @PutMapping("/secure/decrease/book/quantity")
+    public void decreaseBookQuantity(@RequestHeader(value = "Authorization") String token, @RequestParam Long bookId)
+            throws Exception {
+        String admin = ExtractJWT.payloadJWTExtraction(token, USER_TYPE_FIELD);
+        if (admin == null || !admin.equals("admin")) {
+            throw new Exception(UNAUTHORIZED_EXCEPTION_MESSGAGE);
+        }
+
+        adminService.decreaseBookQuantity(bookId);
+    }
+
     @PutMapping("/secure/increase/book/quantity")
     public void increaseBookQuantity(@RequestHeader(value = "Authorization") String token, @RequestParam Long bookId)
             throws Exception {
