@@ -33,7 +33,7 @@ public class AdminController {
             throw new Exception(UNAUTHORIZED_EXCEPTION_MESSGAGE);
         }
 
-        adminService.increateBookQuantity(bookId);
+        adminService.increaseBookQuantity(bookId);
     }
 
     @PostMapping("/secure/add/book")
