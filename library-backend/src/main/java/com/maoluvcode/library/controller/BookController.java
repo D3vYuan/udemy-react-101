@@ -17,7 +17,7 @@ import com.maoluvcode.library.utils.ExtractJWT;
 
 import lombok.extern.slf4j.Slf4j;
 
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("https://localhost:3000")
 @RestController
 @RequestMapping("/api/books")
 @Slf4j

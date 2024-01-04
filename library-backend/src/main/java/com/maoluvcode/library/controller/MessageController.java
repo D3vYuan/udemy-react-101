@@ -13,7 +13,7 @@ import com.maoluvcode.library.entity.Message;
 import com.maoluvcode.library.service.MessageService;
 import com.maoluvcode.library.utils.ExtractJWT;
 
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("https://localhost:3000")
 @RestController
 @RequestMapping("/api/messages")
 public class MessageController {

@@ -12,7 +12,7 @@ import com.maoluvcode.library.entity.Review;
 
 @Configuration
 public class DataRestConfig implements RepositoryRestConfigurer {
-    private String allowedOrigins = "http://localhost:3000";
+    private String allowedOrigins = "https://localhost:3000";
 
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {

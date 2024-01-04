@@ -13,7 +13,7 @@ import com.maoluvcode.library.dto.ReviewRequest;
 import com.maoluvcode.library.service.ReviewService;
 import com.maoluvcode.library.utils.ExtractJWT;
 
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("https://localhost:3000")
 @RestController
 @RequestMapping("/api/reviews")
 public class ReviewController {

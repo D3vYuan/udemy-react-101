@@ -14,7 +14,7 @@ import com.maoluvcode.library.dto.AddBookRequest;
 import com.maoluvcode.library.service.AdminService;
 import com.maoluvcode.library.utils.ExtractJWT;
 
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("https://localhost:3000")
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
