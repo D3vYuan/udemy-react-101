@@ -2,6 +2,7 @@
 setup/
 application.properties
 *sh
+*p12
 
 ### Generated ###
 HELP.md
