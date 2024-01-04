@@ -2,9 +2,11 @@ package com.maoluvcode.library.controller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.maoluvcode.library.dto.AddBookRequest;
@@ -17,9 +19,21 @@ import com.maoluvcode.library.utils.ExtractJWT;
 public class AdminController {
     private AdminService adminService;
     private static final String USER_TYPE_FIELD = "\"userType\"";
+    private static final String UNAUTHORIZED_EXCEPTION_MESSGAGE = "Administratino Page Only";
 
     public AdminController(AdminService adminService) {
         this.adminService = adminService;
+    }
+
+    @PutMapping("/secure/increase/book/quantity")
+    public void increaseBookQuantity(@RequestHeader(value = "Authorization") String token, @RequestParam Long bookId)
+            throws Exception {
+        String admin = ExtractJWT.payloadJWTExtraction(token, USER_TYPE_FIELD);
+        if (admin == null || !admin.equals("admin")) {
+            throw new Exception(UNAUTHORIZED_EXCEPTION_MESSGAGE);
+        }
+
+        adminService.increateBookQuantity(bookId);
     }
 
     @PostMapping("/secure/add/book")
@@ -28,7 +42,7 @@ public class AdminController {
             throws Exception {
         String admin = ExtractJWT.payloadJWTExtraction(token, USER_TYPE_FIELD);
         if (admin == null || !admin.equals("admin")) {
-            throw new Exception("Administration page only");
+            throw new Exception(UNAUTHORIZED_EXCEPTION_MESSGAGE);
         }
         adminService.postBook(addBookRequest);
     }
