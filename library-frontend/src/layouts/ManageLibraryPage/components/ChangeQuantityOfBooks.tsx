@@ -13,6 +13,9 @@ export const ChangeQuantityOfBooks = () => {
   const [totalAmountOfBooks, setTotalAmountOfBooks] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
+  // Delete Books
+  const [bookDelete, setBookDelete] = useState(false);
+
   useEffect(() => {
     const fetchBooks = async () => {
       const url: string = `http://localhost:8080/api/books?page=${
@@ -52,7 +55,7 @@ export const ChangeQuantityOfBooks = () => {
       setIsLoading(false);
       setHttpError(error.message);
     });
-  }, [currentPage]); // If state inside array changes will trigger the useEffect
+  }, [currentPage, bookDelete]); // If state inside array changes will trigger the useEffect
 
   if (isLoading) {
     return (
@@ -79,6 +82,8 @@ export const ChangeQuantityOfBooks = () => {
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
+  const deleteBook = () => setBookDelete(!bookDelete);
+
   return (
     <div className="container mt-5">
       {totalAmountOfBooks > 0 ? (
@@ -90,7 +95,11 @@ export const ChangeQuantityOfBooks = () => {
             {indexOfFirstBook + 1} to {lastItem} of {totalAmountOfBooks} items:
           </p>
           {books.map((book) => (
-            <ChangeQuantityOfBook book={book} key={book.id} />
+            <ChangeQuantityOfBook
+              book={book}
+              key={book.id}
+              deleteBook={deleteBook}
+            />
           ))}
         </>
       ) : (

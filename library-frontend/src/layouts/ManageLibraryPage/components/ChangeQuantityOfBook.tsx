@@ -4,6 +4,7 @@ import BookModel from "../../../models/BookModel";
 
 export const ChangeQuantityOfBook: React.FC<{
   book: BookModel;
+  deleteBook: Function;
 }> = (props, key) => {
   const { authState } = useOktaAuth();
   const [quantity, setQuantity] = useState(0);
@@ -55,6 +56,23 @@ export const ChangeQuantityOfBook: React.FC<{
     setRemaining(remaining - 1);
   }
 
+  async function deleteBook() {
+    const url = `http://localhost:8080/api/admin/secure/delete/book?bookId=${props.book.id}`;
+    const requestOptions = {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
+        "Content-Type": "application/json",
+      },
+    };
+
+    const deleteResponse = await fetch(url, requestOptions);
+    if (!deleteResponse.ok) {
+      throw new Error("Something went wrong!");
+    }
+    props.deleteBook();
+  }
+
   return (
     <div className="card mt-3 shadow p-3 mb-3 bg-body rounded">
       <div className="row g-0">
@@ -96,7 +114,9 @@ export const ChangeQuantityOfBook: React.FC<{
 
         <div className="col-md-1 mt-3">
           <div className="d-flex justify-content-start">
-            <button className="m-1 btn btn-md btn-danger">Delete</button>
+            <button className="m-1 btn btn-md btn-danger" onClick={deleteBook}>
+              Delete
+            </button>
           </div>
         </div>
         <button
