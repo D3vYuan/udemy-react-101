@@ -7,6 +7,8 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.maoluvcode.library.dao.BookRepository;
+import com.maoluvcode.library.dao.CheckoutRepository;
+import com.maoluvcode.library.dao.ReviewRepository;
 import com.maoluvcode.library.dto.AddBookRequest;
 import com.maoluvcode.library.entity.Book;
 
@@ -14,9 +16,14 @@ import com.maoluvcode.library.entity.Book;
 @Transactional
 public class AdminService {
     private BookRepository bookRepository;
+    private ReviewRepository reviewRepository;
+    private CheckoutRepository checkoutRepository;
 
-    public AdminService(BookRepository bookRepository) {
+    public AdminService(BookRepository bookRepository, ReviewRepository reviewRepository,
+            CheckoutRepository checkoutRepository) {
         this.bookRepository = bookRepository;
+        this.reviewRepository = reviewRepository;
+        this.checkoutRepository = checkoutRepository;
     }
 
     public void increaseBookQuantity(Long bookId) throws Exception {
@@ -53,5 +60,17 @@ public class AdminService {
         book.setCategory(addBookRequest.getCategory());
         book.setImg(addBookRequest.getImg());
         bookRepository.save(book);
+    }
+
+    public void deleteBook(Long bookId) throws Exception {
+        Optional<Book> book = bookRepository.findById(bookId);
+
+        if (!book.isPresent()) {
+            throw new Exception("Book not found!");
+        }
+
+        bookRepository.delete(book.get());
+        checkoutRepository.deleteAllByBookId(bookId);
+        reviewRepository.deleteAllByBookId(bookId);
     }
 }
