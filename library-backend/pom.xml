@@ -21,6 +21,7 @@
         <junit.jupiter.version>5.10.1</junit.jupiter.version>
         <!-- <okta.version>3.0.6</okta.version> -->
         <okta.version>2.1.7</okta.version>
+        <stripe.version>24.0.0</stripe.version>
     </properties>
     <dependencies>
 
@@ -57,7 +58,11 @@
             <artifactId>okta-spring-boot-starter</artifactId>
             <version>${okta.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.stripe</groupId>
+            <artifactId>stripe-java</artifactId>
+            <version>${stripe.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
