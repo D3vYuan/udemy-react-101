@@ -125,6 +125,7 @@ public class BookService {
     }
 
     public void returnBook(String userEmail, Long bookId) throws Exception {
+
         Optional<Book> book = bookRepository.findById(bookId);
 
         Checkout validateCheckout = checkoutRepository.findByUserEmailAndBookId(userEmail, bookId);
@@ -136,6 +137,20 @@ public class BookService {
         book.get().setCopiesAvailable(book.get().getCopiesAvailable() + 1);
 
         bookRepository.save(book.get());
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date todayDate = dateFormat.parse(LocalDate.now().toString());
+        Date returnDate = dateFormat.parse(validateCheckout.getReturnDate());
+
+        TimeUnit time = TimeUnit.DAYS;
+        double differenceInTime = time.convert(returnDate.getTime() - todayDate.getTime(), TimeUnit.MILLISECONDS);
+
+        if (differenceInTime < 0) {
+            Payment payment = paymentRepository.findByUserEmail(userEmail);
+            payment.setAmount(payment.getAmount() + (differenceInTime * -1));
+            paymentRepository.save(payment);
+        }
+
         checkoutRepository.deleteById(validateCheckout.getId());
 
         History history = new History(userEmail, validateCheckout.getCheckoutDate(), LocalDate.now().toString(),
