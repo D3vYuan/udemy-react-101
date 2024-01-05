@@ -1,3 +1,9 @@
+/* https://stackoverflow.com/questions/46589819/disable-error-overlay-in-development-mode */
+/* Disable error overlay in development mode */
+body > iframe {
+    display: none;
+  }
+
 :root{
     --mainOpacity: rgba(0, 0, 0, 0.55);
 }
