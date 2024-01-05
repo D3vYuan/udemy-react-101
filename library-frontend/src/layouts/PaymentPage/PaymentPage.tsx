@@ -137,7 +137,9 @@ export const PaymentPage = () => {
               disabled={submitDisabled}
               type="button"
               className="btn btn-md main-color text-white mt-3"
+              onClick={checkout}
             >
+              {/* Card for testing: https://stripe.com/docs/testing?locale=en-GB */}
               Pay Fees
             </button>
           </div>
