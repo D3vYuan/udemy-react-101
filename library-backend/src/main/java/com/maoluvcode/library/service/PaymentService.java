@@ -6,10 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.maoluvcode.library.dao.PaymentRepository;
+import com.maoluvcode.library.entity.Payment;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
@@ -34,5 +37,17 @@ public class PaymentService {
         params.put("payment_method_types", paymentMethodTypes);
 
         return PaymentIntent.create(params);
+    }
+
+    public ResponseEntity<String> stripePayment(String userEmail) throws Exception {
+        Payment payment = paymentRepository.findByUserEmail(userEmail);
+
+        if (payment == null) {
+            throw new Exception("Payment information is missing");
+        }
+
+        payment.setAmount(00.00);
+        paymentRepository.save(payment);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
