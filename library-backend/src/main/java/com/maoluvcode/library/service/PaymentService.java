@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.maoluvcode.library.dao.PaymentRepository;
+import com.maoluvcode.library.dto.PaymentInfoRequest;
 import com.maoluvcode.library.entity.Payment;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
@@ -27,7 +28,7 @@ public class PaymentService {
         Stripe.apiKey = secretKey;
     }
 
-    public PaymentIntent createPaymentIntent(PaymentIntent paymentInfoRquest) throws StripeException {
+    public PaymentIntent createPaymentIntent(PaymentInfoRequest paymentInfoRquest) throws StripeException {
         List<String> paymentMethodTypes = new ArrayList<>();
         paymentMethodTypes.add("card");
 

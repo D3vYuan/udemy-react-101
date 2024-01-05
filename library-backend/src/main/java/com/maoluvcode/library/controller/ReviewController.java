@@ -18,6 +18,7 @@ import com.maoluvcode.library.utils.ExtractJWT;
 @RequestMapping("/api/reviews")
 public class ReviewController {
     private ReviewService reviewService;
+    private static final String SUB_FIELD = "\"sub\"";
 
     public ReviewController(ReviewService reviewService) {
         this.reviewService = reviewService;
@@ -26,7 +27,7 @@ public class ReviewController {
     @GetMapping("/secure/user/book")
     public Boolean reviewBookByUser(@RequestHeader(value = "Authorization") String token, @RequestParam Long bookId)
             throws Exception {
-        String userEmail = ExtractJWT.payloadJWTExtraction(token, "\"sub\"");
+        String userEmail = ExtractJWT.payloadJWTExtraction(token, SUB_FIELD);
         if (userEmail == null) {
             throw new Exception("User email is missing");
         }
@@ -36,7 +37,7 @@ public class ReviewController {
     @PostMapping("/secure")
     public void postReview(@RequestHeader(value = "Authorization") String token,
             @RequestBody ReviewRequest reviewRequest) throws Exception {
-        String userEmail = ExtractJWT.payloadJWTExtraction(token, "\"sub\"");
+        String userEmail = ExtractJWT.payloadJWTExtraction(token, SUB_FIELD);
         if (userEmail == null) {
             throw new Exception("User email is missing");
 
