@@ -1,11 +1,11 @@
 class PaymentInfoRequest {
   amount: number;
-  currency: number;
+  currency: string;
   receiptEmail: string | undefined;
 
   constructor(
     amount: number,
-    currency: number,
+    currency: string,
     receiptEmail: string | undefined
   ) {
     this.amount = amount;

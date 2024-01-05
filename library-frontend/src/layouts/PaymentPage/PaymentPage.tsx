@@ -1,7 +1,8 @@
 import { useOktaAuth } from "@okta/okta-react";
-import { CardElement } from "@stripe/react-stripe-js";
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import PaymentInfoRequest from "../../models/PaymentInfoRequest";
 import { SpinnerLoading } from "../Utils/SpinnerLoading";
 
 export const PaymentPage = () => {
@@ -37,6 +38,78 @@ export const PaymentPage = () => {
       setHttpError(error.messages);
     });
   }, [authState]);
+
+  const elements = useElements();
+  const stripe = useStripe();
+
+  async function checkout() {
+    if (!stripe || !elements || !elements.getElement(CardElement)) {
+      return;
+    }
+
+    setSubmitDisabled(true);
+    let paymentInfo = new PaymentInfoRequest(
+      Math.round(fees * 100),
+      "USD",
+      authState?.accessToken?.claims.sub
+    );
+
+    const url = `${process.env.REACT_APP_API}/payment/secure/payment-intent`;
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(paymentInfo),
+    };
+
+    const stripeResponse = await fetch(url, requestOptions);
+    if (!stripeResponse.ok) {
+      setHttpError(true);
+      setSubmitDisabled(false);
+      throw new Error("Something went wrong!");
+    }
+    const stripeResponseJson = await stripeResponse.json();
+
+    stripe
+      .confirmCardPayment(
+        stripeResponseJson.client_secret,
+        {
+          payment_method: {
+            card: elements.getElement(CardElement)!,
+            billing_details: {
+              email: authState?.accessToken?.claims.sub,
+            },
+          },
+        },
+        { handleActions: false }
+      )
+      .then(async function (result: any) {
+        if (result.error) {
+          setSubmitDisabled(false);
+          alert("There was an error");
+        } else {
+          const url = `${process.env.REACT_APP_API}/payment/secure/payment-complete`;
+          const requestOptions = {
+            method: "PUT",
+            headers: {
+              Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
+              "Content-Type": "application/json",
+            },
+          };
+
+          const stripeResponse = await fetch(url, requestOptions);
+          if (!stripeResponse.ok) {
+            setHttpError(true);
+            setSubmitDisabled(false);
+            throw new Error("Something went wrong!");
+          }
+          setFees(0);
+          setSubmitDisabled(false);
+        }
+      });
+  }
 
   if (loadingFees) {
     return <SpinnerLoading />;
