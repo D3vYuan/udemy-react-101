@@ -1,5 +1,7 @@
 import { useOktaAuth } from "@okta/okta-react";
+import { CardElement } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { SpinnerLoading } from "../Utils/SpinnerLoading";
 
 export const PaymentPage = () => {
@@ -49,8 +51,39 @@ export const PaymentPage = () => {
   }
 
   return (
-    <div>
-      <div></div>
+    <div className="container">
+      {fees > 0 && (
+        <div className="card mt-3">
+          <h5 className="card-header">
+            Fees pending: <span className="text-danger">${fees}</span>
+          </h5>
+          <div className="card-body">
+            <h5 className="card-title mb-3">Credit Card</h5>
+            <CardElement id="card-element" />
+            <button
+              disabled={submitDisabled}
+              type="button"
+              className="btn btn-md main-color text-white mt-3"
+            >
+              Pay Fees
+            </button>
+          </div>
+        </div>
+      )}
+
+      {fees === 0 && (
+        <div className="mt-3">
+          <h5>You have no fees!</h5>
+          <Link
+            type="button"
+            className="btn main-color text-white"
+            to="/search"
+          >
+            Explore Top Books
+          </Link>
+        </div>
+      )}
+      {submitDisabled && <SpinnerLoading />}
     </div>
   );
 };
