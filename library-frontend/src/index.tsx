@@ -1,14 +1,20 @@
+import { loadStripe } from "@stripe/stripe-js";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { App } from "./App";
 import "./index.css";
+import { Elements } from "@stripe/react-stripe-js";
+
+const stripePromise = loadStripe(`${process.env.STRIPE_PUBLISHER_KEY}`);
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <BrowserRouter>
-    <App />
+    <Elements stripe={stripePromise}>
+      <App />
+    </Elements>
   </BrowserRouter>
 );
 
